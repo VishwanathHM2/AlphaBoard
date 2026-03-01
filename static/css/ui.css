@@ -1,0 +1,300 @@
+/* ui.css — Application shell, sidebar, panels, modals */
+
+:root {
+  --bg:          #0e0e0e;
+  --surface:     #161616;
+  --border:      #2a2a2a;
+  --accent:      #c9a84c;
+  --text:        #e8e0d0;
+  --text-muted:  #7a7060;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 48px;
+}
+
+/* ── Header ── */
+header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+header p {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.14em;
+  margin-top: 4px;
+}
+
+/* ── Game layout ── */
+.game-wrapper {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 220px;
+  max-width: 280px;
+  flex: 1;
+}
+
+/* ── Panel ── */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 14px 16px;
+}
+
+.panel-title {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Status ── */
+#status-text {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text);
+  min-height: 2.4em;
+}
+
+#status-text.thinking {
+  color: #7acc7a;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+/* ── Captured pieces ── */
+.cap-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  margin-bottom: 3px;
+}
+
+#captured-by-engine,
+#captured-by-human {
+  font-size: 1.2rem;
+  min-height: 1.6rem;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+/* ── Side selector ── */
+.side-row { display: flex; gap: 6px; }
+
+.side-btn {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  padding: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.side-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(201,168,76,0.08);
+}
+
+/* ── Depth selector ── */
+.depth-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.depth-row select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  flex: 1;
+}
+
+/* ── Buttons ── */
+.controls { display: flex; flex-direction: column; gap: 8px; }
+
+.btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(201,168,76,0.06);
+}
+
+.btn.primary {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn.primary:hover { background: rgba(201,168,76,0.15); }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* ── Move history ── */
+#move-history {
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.72rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+#move-history::-webkit-scrollbar       { width: 4px; }
+#move-history::-webkit-scrollbar-thumb { background: var(--border); }
+
+.move-pair {
+  display: grid;
+  grid-template-columns: 28px 1fr 1fr;
+  gap: 4px;
+}
+
+.move-num  { color: var(--border); }
+.move-cell { color: var(--text); }
+.move-cell.engine { color: var(--accent); }
+
+/* ── Result overlay ── */
+#result-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+}
+
+#result-overlay.show { display: flex; }
+
+.result-box {
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  padding: 40px 48px;
+  text-align: center;
+  box-shadow: 0 0 80px rgba(201,168,76,0.2);
+}
+
+.result-box h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.result-box p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* ── Promotion modal ── */
+#promo-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+
+#promo-modal.show { display: flex; }
+
+.promo-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 24px;
+  text-align: center;
+}
+
+.promo-box p {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.promo-pieces { display: flex; gap: 8px; justify-content: center; }
+
+.promo-btn {
+  width: 64px; height: 64px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 2.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.promo-btn:hover {
+  border-color: var(--accent);
+  background: rgba(201,168,76,0.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .game-wrapper { flex-direction: column; align-items: center; }
+  .sidebar { max-width: 100%; width: 100%; }
+}

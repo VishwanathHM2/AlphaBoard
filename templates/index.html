@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chess Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/board.css" />
+  <link rel="stylesheet" href="/static/css/ui.css" />
+</head>
+<body>
+
+  <header>
+    <h1>♛ Chess Engine</h1>
+    <p>ALPHA-BETA · QUIESCENCE SEARCH · PYTHON BACKEND</p>
+  </header>
+
+  <div class="game-wrapper">
+
+    <!-- Board -->
+    <div class="board-container">
+      <div class="coords-row" id="file-coords"></div>
+      <div class="board-and-ranks">
+        <div class="coords-col" id="rank-coords"></div>
+        <div id="board"></div>
+      </div>
+      <div id="thinking-bar"><div id="thinking-bar-fill"></div></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <div class="panel">
+        <div class="panel-title">Status</div>
+        <div id="status-text">Loading…</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Captured</div>
+        <div class="cap-label">BY ENGINE</div>
+        <div id="captured-by-engine"></div>
+        <div class="cap-label" style="margin-top:8px">BY YOU</div>
+        <div id="captured-by-human"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Settings</div>
+        <div class="side-row" style="margin-bottom:10px">
+          <button class="side-btn active" id="btn-play-white" onclick="setSide('white')">Play White</button>
+          <button class="side-btn"        id="btn-play-black" onclick="setSide('black')">Play Black</button>
+        </div>
+        <div class="depth-row">
+          <span>Depth</span>
+          <select id="depth-select">
+            <option value="2">2 — Fast</option>
+            <option value="3">3 — Medium</option>
+            <option value="4" selected>4 — Strong</option>
+            <option value="5">5 — Hard</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Controls</div>
+        <div class="controls">
+          <button class="btn primary" onclick="newGame()">⟳  New Game</button>
+          <button class="btn" id="undo-btn" onclick="undoMove()">↩  Undo Last Move</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title">Move History</div>
+        <div id="move-history">
+          <span style="color:var(--border);font-size:0.7rem">No moves yet</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Result overlay -->
+  <div id="result-overlay">
+    <div class="result-box">
+      <h2 id="result-title">Game Over</h2>
+      <p  id="result-subtitle"></p>
+      <button class="btn primary" onclick="newGame(); hideOverlay()">Play Again</button>
+    </div>
+  </div>
+
+  <!-- Promotion modal -->
+  <div id="promo-modal">
+    <div class="promo-box">
+      <p>CHOOSE PROMOTION PIECE</p>
+      <div class="promo-pieces" id="promo-choices"></div>
+    </div>
+  </div>
+
+  <!-- Scripts (order matters) -->
+  <script src="/static/js/constants.js"></script>
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/board.js"></script>
+  <script src="/static/js/ui.js"></script>
+  <script src="/static/js/game.js"></script>
+
+</body>
+</html>

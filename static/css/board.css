@@ -1,0 +1,143 @@
+/* board.css — Chess board layout and square styles */
+
+:root {
+  --light-sq:      #d4b896;
+  --dark-sq:       #8b5e3c;
+  --highlight:     #f0c040;
+  --highlight-move:rgba(240,192,64,0.35);
+  --legal-dot:     rgba(240,192,64,0.22);
+  --legal-ring:    rgba(240,192,64,0.55);
+  --check-sq:      rgba(220,50,50,0.55);
+}
+
+/* ── Container ── */
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.coords-row {
+  display: flex;
+  width: 100%;
+  padding-left: 28px;
+}
+
+.coord-file {
+  flex: 1;
+  text-align: center;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.board-and-ranks {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.coords-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.coord-rank {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Board grid ── */
+#board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border: 2px solid var(--border);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 0 1px #3a3020;
+}
+
+/* ── Squares ── */
+.sq {
+  width:  clamp(52px, 9vw, 72px);
+  height: clamp(52px, 9vw, 72px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.sq.light { background: var(--light-sq); }
+.sq.dark  { background: var(--dark-sq); }
+
+.sq.selected {
+  outline: 3px solid var(--highlight);
+  outline-offset: -3px;
+  z-index: 2;
+}
+
+.sq.last-from,
+.sq.last-to {
+  background-color: var(--highlight-move) !important;
+}
+
+.sq.in-check { background: var(--check-sq) !important; }
+
+/* Legal move indicators */
+.sq.legal-target::after {
+  content: '';
+  position: absolute;
+  width: 34%; height: 34%;
+  border-radius: 50%;
+  background: var(--legal-dot);
+  border: 2px solid rgba(240,192,64,0.5);
+  pointer-events: none;
+}
+
+.sq.legal-capture::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 4px solid var(--legal-ring);
+  pointer-events: none;
+}
+
+/* ── Piece ── */
+.piece {
+  font-size: clamp(30px, 5.5vw, 46px);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+  transition: transform 0.12s ease;
+}
+
+.sq:hover .piece { transform: scale(1.08); }
+
+/* ── Thinking bar ── */
+#thinking-bar {
+  height: 2px;
+  width: 100%;
+  background: var(--border);
+  margin-top: 6px;
+  overflow: hidden;
+  border-radius: 1px;
+  display: none;
+}
+#thinking-bar.active { display: block; }
+
+#thinking-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  animation: sweep 1.8s ease-in-out infinite;
+}
+
+@keyframes sweep {
+  0%   { width: 0%;  margin-left: 0%; }
+  50%  { width: 60%; margin-left: 20%; }
+  100% { width: 0%;  margin-left: 100%; }
+}
